@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>部署</title>
+    <meta name="description" content="">
+    
+    
+    <link rel="preload" href="/assets/css/0.styles.784e4e3b.css" as="style"><link rel="preload" href="/assets/js/app.3ad1fb06.js" as="script"><link rel="preload" href="/assets/js/6.15a629ed.js" as="script"><link rel="prefetch" href="/assets/js/14.5a816904.js"><link rel="prefetch" href="/assets/js/1.28887301.js"><link rel="prefetch" href="/assets/js/2.57d8d641.js"><link rel="prefetch" href="/assets/js/3.e23cb98e.js"><link rel="prefetch" href="/assets/js/4.5a192ead.js"><link rel="prefetch" href="/assets/js/5.bfe0ba16.js"><link rel="prefetch" href="/assets/js/7.fdeb1476.js"><link rel="prefetch" href="/assets/js/8.0ac8cb55.js"><link rel="prefetch" href="/assets/js/9.6ce32372.js"><link rel="prefetch" href="/assets/js/10.c67ba145.js"><link rel="prefetch" href="/assets/js/11.bc4c95ed.js"><link rel="prefetch" href="/assets/js/12.10bf4a38.js"><link rel="prefetch" href="/assets/js/13.1def8bf5.js"><link rel="prefetch" href="/assets/js/15.be2dc886.js"><link rel="prefetch" href="/assets/js/16.086eb15f.js"><link rel="prefetch" href="/assets/js/17.27e3ca14.js"><link rel="prefetch" href="/assets/js/18.62f33ff8.js"><link rel="prefetch" href="/assets/js/19.fff9a8ad.js"><link rel="prefetch" href="/assets/js/20.7dea1cae.js"><link rel="prefetch" href="/assets/js/21.c21d2dc2.js"><link rel="prefetch" href="/assets/js/22.4a6f4ef2.js"><link rel="prefetch" href="/assets/js/23.65af0be6.js"><link rel="prefetch" href="/assets/js/24.c166f360.js"><link rel="prefetch" href="/assets/js/25.6d60fa05.js"><link rel="prefetch" href="/assets/js/26.624bb753.js"><link rel="prefetch" href="/assets/js/27.f6d2b6c0.js"><link rel="prefetch" href="/assets/js/28.188e62a5.js"><link rel="prefetch" href="/assets/js/29.56c54b44.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.784e4e3b.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container no-sidebar"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div><a href="/" class="home-link router-link-active"></a><div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""><!----></div><!----></div></header><div class="sidebar-mask"></div><div class="sidebar"><!----><!----></div><div class="page"><div class="content"><h1 id="部署"><a href="#部署" aria-hidden="true" class="header-anchor">#</a> 部署</h1><p>下述的指南，将假定你将文档放置在项目的 <code>docs</code> 目录中，并使用默认的构建输出位置。</p><h2 id="github-pages"><a href="#github-pages" aria-hidden="true" class="header-anchor">#</a> GitHub Pages</h2><ol><li><p>将 <code>.vuepress/config.js</code> 的 <code>base</code> 设置成你仓库的名字，举个例子，如果你的仓库是 <code>https://github.com/foo/bar</code>, 部署的页面将会通过 <code>https://foo.github.io/bar</code> 来访问，此时，你应该将 <code>base</code> 设置为 <code>&quot;/bar/&quot;</code>。</p></li><li><p>在你的项目中运行:</p></li></ol><pre class="language-bash"><code><span class="token comment"># 构建静态文件</span>
+vuepress build docs
+
+<span class="token comment"># 切换到你的输出目录</span>
+<span class="token function">cd</span> docs/.vuepress/dist
+
+<span class="token function">git</span> init
+<span class="token function">git</span> add -A
+<span class="token function">git</span> commit -m <span class="token string">'deploy'</span>
+
+<span class="token comment"># push 到你仓库的 gh-pages 分支</span>
+<span class="token comment"># 将 &lt;USERNAME&gt;/&lt;REPO&gt; 替换成你的信息</span>
+<span class="token function">git</span> push -f git@github.com:<span class="token operator">&lt;</span>USERNAME<span class="token operator">&gt;</span>/<span class="token operator">&lt;</span>REPO<span class="token operator">&gt;</span>.git master:gh-pages
+</code></pre><p>你可以在你的持续集成的设置中，设置在每次 push 代码时自动运行上述脚本。</p><h2 id="netlify"><a href="#netlify" aria-hidden="true" class="header-anchor">#</a> Netlify</h2><ol><li>确保你已经有了构建你的文档的的 npm scripts：</li></ol><pre class="language-json"><code><span class="token punctuation">{</span>
+  <span class="token property">&quot;scripts&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">&quot;build-docs&quot;</span><span class="token operator">:</span> <span class="token string">&quot;vuepress build docs&quot;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><ol start="2"><li>在 Netlify 中, 创建一个新的 Github 项目，并做一下设置:</li></ol><ul><li><strong>Build Command:</strong><code>npm run build-docs</code> 或者 <code>yarn build-docs</code></li><li><strong>Publish directory:</strong><code>docs/.vuepress/dist</code></li></ul><ol start="3"><li>点击 deploy 按钮！</li></ol></div><!----><!----></div></div></div>
+    <script src="/assets/js/6.15a629ed.js" defer></script><script src="/assets/js/app.3ad1fb06.js" defer></script>
+  </body>
+</html>
